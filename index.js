@@ -57,7 +57,7 @@ app.get('/today', (req, res) => {
         })
 
       });
-      res.json({
+      res.set('Access-Control-Allow-Origin', '*').json({
         result: 'success',
         data: {
           date: dayjs(now).format('YYYY-MM-DD'),
