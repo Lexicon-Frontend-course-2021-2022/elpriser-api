@@ -73,6 +73,48 @@ app.get('/today', (req, res) => {
       });
 
 
+      const new_object = {
+        max: {
+          SE1: api_data.areas.SE1.max,
+          SE2: api_data.areas.SE2.max,
+          SE3: api_data.areas.SE3.max,
+          SE4: api_data.areas.SE4.max,
+          scale: -999999999
+        },
+        min: {
+          SE1: api_data.areas.SE1.min,
+          SE2: api_data.areas.SE2.min,
+          SE3: api_data.areas.SE3.min,
+          SE4: api_data.areas.SE4.min,
+          scale: 999999999
+        },
+        mean: {
+          SE1: api_data.areas.SE1.mean,
+          SE2: api_data.areas.SE2.mean,
+          SE3: api_data.areas.SE3.mean,
+          SE4: api_data.areas.SE4.mean,
+        },
+        hourly: []
+      }
+
+      let i = 0;
+      for (i = 0; i < api_data.areas.SE1.hourly.length; i++) {
+        const h = {
+          hour: i,
+          SE1: api_data.areas.SE1.hourly[i],
+          SE2: api_data.areas.SE2.hourly[i],
+          SE3: api_data.areas.SE3.hourly[i],
+          SE4: api_data.areas.SE4.hourly[i],
+        }
+        new_object.hourly.push(h);
+      }
+
+      ['SE1', 'SE2', 'SE3', 'SE4'].forEach(area => {
+        new_object.min.scale = new_object.min.scale < new_object.min[area] ? new_object.min.scale : new_object.min[area];
+        new_object.max.scale = new_object.max.scale > new_object.max[area] ? new_object.max.scale : new_object.max[area];
+      });
+
+
       // Return result
       res
         .set('Access-Control-Allow-Origin', '*') /* BUGFIX: CORS */
@@ -82,7 +124,7 @@ app.get('/today', (req, res) => {
             date: dayjs(now).format('YYYY-MM-DD'),
             hours: api_data.areas.SE1.hourly.length,
             unit: 'öre/kWh',
-            ...api_data
+            ...new_object,
           }
         });
     });
