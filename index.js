@@ -109,8 +109,8 @@ app.get('/today', (req, res) => {
         new_object.hourly.push(h);
       }
 
-      new_object.max.scale = Math.max(new_object.max.SE1, new_object.max.SE2, new_object.max.SE3, new_object.max.SE4)
-      new_object.min.scale = Math.min(new_object.min.SE1, new_object.min.SE2, new_object.min.SE3, new_object.min.SE4)
+      new_object.max.scale = Math.max(new_object.max.SE1, new_object.max.SE2, new_object.max.SE3, new_object.max.SE4).toFixed(2)
+      new_object.min.scale = Math.min(new_object.min.SE1, new_object.min.SE2, new_object.min.SE3, new_object.min.SE4).toFixed(2)
 
 
       // Return result
