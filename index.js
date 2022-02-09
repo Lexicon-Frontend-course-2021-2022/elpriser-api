@@ -109,10 +109,8 @@ app.get('/today', (req, res) => {
         new_object.hourly.push(h);
       }
 
-      ['SE1', 'SE2', 'SE3', 'SE4'].forEach(area => {
-        new_object.min.scale = new_object.min.scale < new_object.min[area] ? new_object.min.scale : new_object.min[area];
-        new_object.max.scale = new_object.max.scale > new_object.max[area] ? new_object.max.scale : new_object.max[area];
-      });
+      new_object.max.scale = Math.max(new_object.max.SE1, new_object.max.SE2, new_object.max.SE3, new_object.max.SE4)
+      new_object.min.scale = Math.min(new_object.min.SE1, new_object.min.SE2, new_object.min.SE3, new_object.min.SE4)
 
 
       // Return result
